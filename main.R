@@ -5,7 +5,8 @@ source( "funciones_comunes.R" )
 
 #INI#____________CONFIGURACIÓN INICIAL DEPENDENCIAS____________#INI#
 ## Instalación de paquetes necesarios
-#carga_paquetes()
+#list.files()
+carga_paquetes()
 ## Carga de librerias necesarias
 librerias()
 #FIN#____________CONFIGURACIÓN INICIAL DEPENDENCIAS____________#FIN#

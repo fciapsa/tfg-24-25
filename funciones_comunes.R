@@ -24,93 +24,21 @@ librerias <- function() {
   library( doParallel )
 }
 
-## Función de carga de los paquetes necesarios (guardados en la carpeta PACKAGES)
+## Función de carga de los paquetes necesarios 
 carga_paquetes <- function() {
-  list_packages <- data.frame( "Package" = unique( installed.packages()[,"Package"] ) )
-  aux <- c( "HIGHCHARTER_package"    = "highcharter",
-            "ORE151_package"         = "ORE",
-            "XLSX_package"           = "xlsx",
-            "DPLYR_package"          = "dplyr",
-            "RHANDSONTABLE_package"  = "rhandsontable",
-            "PLYR_package"           = "plyr",
-            "SHINY_package"          = "shiny",
-            "SHINYDASHBOARD_package" = "shinydashboard",
-            "TIDYR_package"          = "tidyr",
-            "DT_package"             = "DT",
-            "READR_package"          = "readr",
-            "RCURL_package"          = "RCurl",
-            "R.UTILS_package"        = "R.utils",
-            "SQLDF_package"          = "sqldf" )
+  list_packages <- c("lubridate",
+                     "ore",
+                     "stringr",
+                     "stringi",
+                     "DBI",
+                     "dbplyr",
+                     "dplyr",
+                     "tidyr",
+                     "tibble",
+                     "foreach",
+                     "doParallel")
+  install.packages(list_packages,configure.args = c(RNetCDF = "--with-netcdf-include=/usr/include/udunits2"))
   
-  for ( paquete in setdiff( aux, list_packages[,"Package"] ) ) {
-    Install_Packages( names( which( aux == paquete ) ) )
-  }
-  
-  for ( libreria in aux ) {
-    library( libreria, character.only = T )
-  }
-}
-
-## Función que instala los paquetes
-Install_Packages <- function( x ){
-  if ( !file.exists( paste( "/PACKAGES/", x, sep = "" ) ) ) { 
-    stop( "Nombre erroneo o no existe. Utilice: NOMBREPAQUETE_package" ) 
-  }
-  
-  temp <- dir( "~/R/x86_64-unknown-linux-gnu-library/3.2/" )
-  
-  if ( sum( substr( temp, 1, 6 ) == "00LOCK" ) >= 1 ) {
-    clean <- temp[( substr( temp, 1, 6 ) == "00LOCK" )]
-    invisible( lapply( 1:length( clean ), FUN = function(i) {
-      unlink( paste( "~/R/x86_64-unknown-linux-gnu-library/3.2/", clean[i], "/", sep = "" ), recursive = TRUE ) 
-    } ) )
-  }
-  
-  if ( sum( substr( temp, 1, 6 ) == "00LOCK" ) >= 1 ) {
-    cat( "\n Ha habido un error en la instalacion del paquete. Ejecute la siguiente linea de comandos: \n\n Install_Packages(\"", x , "\") \n\n\n", sep = "" )
-    
-    .rs.restartR()
-    stop( NULL, call. = F )
-  }
-  
-  a <- dir( "/PACKAGES/" )
-  
-  if ( sum( x == a ) == 1 ) {
-    dir( paste( "/PACKAGES/", x, "/packages/", sep = "" ) )
-    t <- read.table( paste( "/PACKAGES/", x, "/", x, "_dep.txt", sep = "" ) )
-    n <- 1:nrow( t )
-    
-    if ( sum( grepl( "nloptr_", t$V1 ) ) == 1 ) {
-      remove.packages( "nloptr" )
-      system( "cp -r /PACKAGES/nloptr ~/R/x86_64-unknown-linux-gnu-library/3.2/" )
-      
-      nloptr <- grep( "nloptr_", t$V1 )
-      n <- n[-nloptr]
-    }
-    
-    if ( sum( grepl("stringi_", t$V1 ) ) == 1 ) {
-      remove.packages( "stringi" )
-      system( "cp -r /PACKAGES/stringi ~/R/x86_64-unknown-linux-gnu-library/3.2/" )
-      
-      stringi <- grep( "stringi_", t[n,"V1"] )
-      n <- n[-stringi]
-    }
-    
-    if ( sum( grepl( "-master.tar.gz", t$V1 ) ) == 1 ) {
-      paquete_m <- substr( t$V1[grepl( "-master.tar.gz", t$V1 )], 1, ( nchar( as.character( t$V1[grepl("-master.tar.gz", t$V1 )] ) ) - 14 ) )
-      remove.packages( paquete_m )
-      system( paste( "cp -r /PACKAGES/", paquete_m, " ~/R/x86_64-unknown-linux-gnu-library/3.2/", sep = "" ) )
-      
-      master_p <- grep( "-master.tar.gz", t[n,"V1"] )
-      n <- n[-master_p]
-    }
-    
-    invisible( lapply( n, FUN = function( i ) {
-      install.packages( paste( "/PACKAGES/", x, "/", t[i,], sep = "" ), 
-                        repos = NULL,
-                        lib = "~/R/x86_64-unknown-linux-gnu-library/3.2/") 
-    } ) )
-  }
 }
 #FIN#____________CARGA LIBRERIAS____________#FIN#
 
