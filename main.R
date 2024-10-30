@@ -4,20 +4,15 @@ source( "funciones_comunes.R" )
 #FIN#____________CARGA ARCHIVOS R AUXILIARES____________#FIN#
 
 #INI#____________CONFIGURACIÓN INICIAL DEPENDENCIAS____________#INI#
-## Instalación de paquetes necesarios
-#list.files()
+## Instalación de paquetes necesarios (solo necesario la primera vez)
 #carga_paquetes()
-## Carga de librerias necesarias
+## Carga de librerías necesarias
 librerias()
 #FIN#____________CONFIGURACIÓN INICIAL DEPENDENCIAS____________#FIN#
 
-# Configuración del sistema
-PID = Sys.getpid()
-#drv = dbDriver( "Oracle" )
-#Sys.setenv( TZ = 'GMT-1' )
-#options( scipen = 999 )
-
-setwd("~/TFG/tfg-24-25")
+# Configurar el directorio que contiene este script como el directorio de trabajo
+current_directory = dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_directory)
 
 # Carga de .csv necesarios
 aux1 <- read.csv2( "csvs/Distribución de agua registrada, usuario y periodo.csv",  header = TRUE, stringsAsFactor = FALSE, encoding = "UTF-8" )

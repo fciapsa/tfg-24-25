@@ -22,7 +22,8 @@ librerias <- function() {
   library( tibble     )
   library( foreach    )
   library( doParallel )
-  library( shiny )
+  library( shiny      )
+  library( rstudioapi )
 }
 
 ## Función de carga de los paquetes necesarios 
@@ -38,7 +39,8 @@ carga_paquetes <- function() {
                      "tibble",
                      "foreach",
                      "doParallel",
-                     "shiny")
+                     "shiny",
+                     "rstudioapi")
   install.packages(list_packages,configure.args = c(RNetCDF = "--with-netcdf-include=/usr/include/udunits2"))
   
 }
