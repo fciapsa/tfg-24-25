@@ -24,6 +24,7 @@ librerias <- function() {
   library( doParallel )
   library( shiny      )
   library( rstudioapi )
+  library( readr )
 }
 
 ## Función de carga de los paquetes necesarios 
@@ -40,7 +41,8 @@ carga_paquetes <- function() {
                      "foreach",
                      "doParallel",
                      "shiny",
-                     "rstudioapi")
+                     "rstudioapi",
+                     "readr")
   install.packages(list_packages,configure.args = c(RNetCDF = "--with-netcdf-include=/usr/include/udunits2"))
   
 }
