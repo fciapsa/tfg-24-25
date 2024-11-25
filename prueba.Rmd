@@ -1,0 +1,62 @@
+---
+title: "TITTLE OF DASHBOARD"
+author: "Flavius Abel Ciapsa & Pablo Martínez Domingo"
+date: "`r Sys.Date()`"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    social: menu
+    source_code: embed 
+runtime: shiny
+---
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+#library(datasets)
+library( readr )
+csv <- read_delim("csvs/Distribución de agua registrada, usuario y periodo.csv",
+            delim = ";",
+            col_types = cols(periodo = col_integer(), Total = col_number()),
+            locale = locale(decimal_mark = ",", grouping_mark = "."),
+            na = "..")
+```
+
+Sidebar {.sidebar}
+=====================================
+
+```{r}
+# shiny inputs defined here
+```
+
+PAGINA 1
+=======================================================================
+
+### Embedding a Shiny Module
+
+```{r, include=FALSE}
+# Shiny module definition (would typically be defined in a separate R script)
+
+# UI function
+GruposUI <- function(id) {
+  ns <- NS(id)
+  fillCol(height = 600, flex = c(NA, 1), 
+    inputPanel(
+      selectInput(ns("Columnas"), "Grupos de usuarios:", choices = colnames(csv))
+    ),
+    plotOutput(ns("GrupoUsuariosPlot"), height = "100%")
+  )
+}
+
+# Server function
+csvFun <- function(input, output, session, ...) {
+  output$GrupoUsuariosPlot <- renderPlot({
+    barplot(csv[,input$region]*1000, 
+      ylab = "Numero de Grupos", xlab = "Year", ...)
+  })
+}
+```
+
+```{r}
+# Include the module
+GruposUI("GrupoUsuarios")
+callModule(csvFun, "GrupoUsuarios", col = rainbow(20))
+```

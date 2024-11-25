@@ -55,3 +55,4 @@ aux5 <- read_delim("csvs/Recogida y tratamiento de las aguas residuales por comu
             col_types = cols(periodo = col_integer(), Total = col_number()),
             locale = locale(decimal_mark = ",", grouping_mark = "."),
             na = "..")
+
