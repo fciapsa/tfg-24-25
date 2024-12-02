@@ -57,8 +57,8 @@ aux5 <- read_delim("csvs/Recogida y tratamiento de las aguas residuales por comu
             na = "..")
 
 # Limpieza: Eliminación de las filas sin valores
-aux1 <- filter(aux1, !is.na(Total))
-aux2 <- filter(aux2, !is.na(Total))
-aux3 <- filter(aux3, !is.na(Total))
-aux4 <- filter(aux4, !is.na(Total))
-aux5 <- filter(aux5, !is.na(Total))
+aux1 <- drop_na(aux1, "Total")
+aux2 <- drop_na(aux2, "Total")
+aux3 <- drop_na(aux3, "Total")
+aux4 <- drop_na(aux4, "Total")
+aux5 <- drop_na(aux5, "Total")
