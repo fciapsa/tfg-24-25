@@ -92,6 +92,29 @@ aux3 <- drop_na(aux3, "total")
 aux4 <- drop_na(aux4, "total")
 aux5 <- drop_na(aux5, "total")
 
+# Combinación de las columnas "total_nacional" y "comunidades_ciudades_autonomas"
+# en una única columna que sintetiza la información de ambas
+aux2[aux2$total_nacional == "Total Nacional" &
+       is.na(aux2$comunidades_ciudades_autonomas),]$comunidades_ciudades_autonomas = "00 España"
+aux2[aux2$total_nacional == "Ceuta y Melilla" &
+       is.na(aux2$comunidades_ciudades_autonomas),]$comunidades_ciudades_autonomas = "18 Ceuta y Melilla"
+
+
+aux3[aux3$total_nacional == "Total Nacional" &
+       aux3$comunidades_ciudades_autonomas == "",]$comunidades_ciudades_autonomas = "00 España"
+aux3[aux3$total_nacional == "Ceuta y Melilla" &
+       aux3$comunidades_ciudades_autonomas == "",]$comunidades_ciudades_autonomas = "18 Ceuta y Melilla"
+
+aux4[aux4$total_nacional == "Total Nacional" &
+       aux4$comunidades_ciudades_autonomas == "",]$comunidades_ciudades_autonomas = "00 España"
+aux4[aux4$total_nacional == "Ceuta y Melilla" &
+       aux4$comunidades_ciudades_autonomas == "",]$comunidades_ciudades_autonomas = "18 Ceuta y Melilla"
+
+aux5[aux5$total_nacional == "Total Nacional" &
+       aux5$comunidades_ciudades_autonomas == "",]$comunidades_ciudades_autonomas = "00 España"
+aux5[aux5$total_nacional == "Ceuta y Melilla" &
+       aux5$comunidades_ciudades_autonomas == "",]$comunidades_ciudades_autonomas = "18 Ceuta y Melilla"
+
 # Factorización de las columnas que contienen datos categóricos
 aux1$grupos_usuarios <- factor(aux1$grupos_usuarios)
 aux1$periodo <- factor(aux1$periodo)
