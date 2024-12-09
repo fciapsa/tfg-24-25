@@ -1,3 +1,0 @@
-¿Cómo se puede renombrar el fichero de entrada (source_code) en la creación del dashboard para luego seleccionar sus columnas?
-
-¿Cómo puedo escoger un csv que está en una subcarpeta anterior (está en una ruta diferente a la actual)?
