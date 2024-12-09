@@ -1,0 +1,34 @@
+---
+title: "TITTLE OF DASHBOARD"
+author: "Flavius Abel Ciapsa & Pablo Martínez Domingo"
+date: "`r Sys.Date()`"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    social: menu
+    source_code: csvs/Recogida y tratamiento de las aguas residuales por comunidades y ciudades autónomas, tipo de indicador y periodo.csv
+runtime: shiny
+---
+
+Sidebar {.sidebar}
+=====================================
+
+```{r}
+# shiny inputs defined here
+```
+
+Page 1
+=====================================  
+
+### Chart 1
+    
+```{r}
+```
+   
+Page 2
+=====================================     
+
+### Chart 2
+    
+```{r}
+```

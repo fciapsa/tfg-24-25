@@ -1,0 +1,39 @@
+---
+title: "Trabajo Agua"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+---
+Agua {data-icon=250}
+=======================================================================
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+Row {data-width=250}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+```
+
+Población {data-icon=250}
+=======================================================================
+Row {data-width=750}
+-----------------------------------------------------------------------
+
+### Gráfica
+
+```{r}
+
+```
+
+### Mapa
+
+```{r}
+
+```
