@@ -1,0 +1,6 @@
+La sentencia:
+	filter(df_captac, `Comunidades y Ciudades Autonomas` == "18 Ceuta y Melilla")
+¿Por qué devuelve una matriz vacía cuando deberían haber datos? - A tibble: 0 × 5
+
+¿Hay alguna manera de que las variables que se calculen en otro .R que no es el main, se guarden para utilizarlas en el main.R que llama a la función?
+
