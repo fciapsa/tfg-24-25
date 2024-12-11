@@ -11,22 +11,26 @@
 
 #INI#____________CARGA LIBRERIAS____________#INI#
 librerias <- function() {
-  library( lubridate  )
-  library( ore        )
-  library( stringr    )
-  library( stringi    )
-  library( DBI        )
-  library( dbplyr     )
-  library( dplyr      )
-  library( tidyr      )
-  library( tibble     )
-  library( foreach    )
-  library( doParallel )
-  library( shiny      )
-  library( rstudioapi )
-  library( readr )
+  library( lubridate   )
+  library( ore         )
+  library( stringr     )
+  library( stringi     )
+  library( DBI         )
+  library( dbplyr      )
+  library( dplyr       )
+  library( tidyr       )
+  library( tibble      )
+  library( foreach     )
+  library( doParallel  )
+  library( shiny       )
+  library( rstudioapi  )
+  library( readr       )
+  library( ggplot2     )
+  library(TeachingDemos)
 }
+#FIN#____________CARGA LIBRERIAS____________#FIN#
 
+#INI#____________CARGA PAQUETES____________#INI#
 ## Función de carga de los paquetes necesarios 
 carga_paquetes <- function() {
   list_packages <- c("lubridate",
@@ -46,7 +50,66 @@ carga_paquetes <- function() {
   install.packages(list_packages,configure.args = c(RNetCDF = "--with-netcdf-include=/usr/include/udunits2"))
   
 }
-#FIN#____________CARGA LIBRERIAS____________#FIN#
+#FIN#____________CARGA PAQUETES____________#FIN#
+
+#INI#____________CARGA CSVs____________#INI#
+carga_csvs <- function() {
+  #Captación realizada por la propia empresa por comunidades y ciudades autónomas, tipo de captación y periodo
+  #COSAS A REALIZAR:
+  #La columna "Comunidades y Ciudades Autónomas" está vacía para cuando la columna "Total Nacional tiene el valor "Ceuta y Melilla"
+  #Asociar a la columna "Comunidades y Ciudades Autónomas" el valor de "18 Ceuta y Melilla" - HECHO
+  #Quitar la tilde de la segunda columna (para que no haya problemas a la hora de seleccionarla) - HECHO
+  #Quitar la tilde de la tercera columna (para que no haya problemas a la hora de seleccionarla) - HECHO
+  # Fuente: https://www.ine.es/up/96pyDkGB
+  df_captac <- read_delim("csvs/Captación realizada por la propia empresa por comunidades y ciudades autónomas, tipo de captación y periodo.csv", 
+                          delim = ";",
+                          col_types = cols(periodo = col_integer(), Total = col_number()),
+                          locale = locale(decimal_mark = ",", grouping_mark = "."),
+                          na = "..")
+  
+  # Distribución de agua registrada, usuario y periodo.
+  # Fuente: https://ine.es/up/izJimhrq
+  aux1 <- read_delim("csvs/Distribución de agua registrada, usuario y periodo.csv",
+                     delim = ";",
+                     col_types = cols(periodo = col_integer(), Total = col_number()),
+                     locale = locale(decimal_mark = ",", grouping_mark = "."),
+                     na = "..")
+  
+  # Volumen de agua disponible (potabilizada y no potabilizada) por comunidades y
+  # ciudades autónomas, tipo de indicador y periodo.
+  # Fuente: https://ine.es/up/sHkVfTve
+  aux2 <- read_delim("csvs/Volumen de agua disponible (potabilizada y no potabilizada) por comunidades y ciudades autónomas, tipo de indicador y periodo.csv",
+                     delim = ";",
+                     col_types = cols(periodo = col_integer(), Total = col_number()),
+                     locale = locale(decimal_mark = ",", grouping_mark = "."))
+  
+  # Distribución de agua registrada por comunidades y ciudades autónomas, grupos de usuarios e importe y periodo.
+  # Fuente: https://ine.es/up/WMtOBGH0
+  aux3 <- read_delim("csvs/Distribución de agua registrada por comunidades y ciudades autónomas, grupos de usuarios e importe y periodo.csv", 
+                     delim = ";",
+                     col_types = cols(periodo = col_integer(), Total = col_number()),
+                     locale = locale(decimal_mark = ",", grouping_mark = "."),
+                     na = "..")
+  
+  # Volumen de agua suministrada a la red por comunidades y ciudades autónomas, tipo de indicador y periodo.
+  # Fuente: https://ine.es/up/ZQ5YmzAI
+  aux4 <- read_delim("csvs/Volumen de agua suministrada a la red por comunidades y ciudades autónomas, tipo de indicador y periodo.csv", 
+                     delim = ";",
+                     col_types = cols(periodo = col_integer(), Total = col_number()),
+                     locale = locale(decimal_mark = ",", grouping_mark = "."),
+                     na = "..")
+  
+  # Recogida y tratamiento de las aguas residuales por comunidades y ciudades autónomas, tipo de indicador y periodo.
+  # Fuente: https://ine.es/up/2Hs7okgKi1
+  aux5 <- read_delim("csvs/Recogida y tratamiento de las aguas residuales por comunidades y ciudades autónomas, tipo de indicador y periodo.csv", 
+                     delim = ";",
+                     col_types = cols(periodo = col_integer(), Total = col_number()),
+                     locale = locale(decimal_mark = ",", grouping_mark = "."),
+                     na = "..")
+  
+  return( c(df_captac, aux1, aux2, aux3, aux4, aux5) )
+}
+#FIN#____________CARGA CSVs____________#FIN#
 
 #INI#____________CONTROL ERRORES____________#INI#
 #FIN#____________CONTROL ERRORES____________#FIN#
@@ -80,7 +143,7 @@ month_number <- function( d ) {
   lt$year*12 + lt$mon + lt$mday/30.4167
 }
 
-## EQUIVALENTE AL MONTHS_BETWEEN() pero invirtiendo el orden:
+## EQUIVALENTE AL MONTHS_BETWEEN() pero invirtiendo el orden
 diff_month <- function( d1, d2 ) {
   month_number( d2 ) - month_number( d1 )
 }
